@@ -1,0 +1,3920 @@
+#include <iostream>
+#include <Windows.h>
+#include <string>
+using namespace std;
+
+
+void Negation(int mat[8])
+{
+	for (int i = 0; i < 8; i++)
+	{
+		if (mat[i] == 0)
+			mat[i] = 1;
+		else
+			mat[i] = 0;
+	}
+}
+
+
+void AND(int mat1[8], int mat2[8], int Res[8]) {
+	for (int i = 0; i < 8; i++)
+	{
+		if (mat1[i] == 0 && mat2[i] == 0)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 0 && mat2[i] == 1)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 0)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+	}
+
+}
+
+
+
+void OR(int mat1[8], int mat2[8], int Res[8])
+{
+	for (int i = 0; i < 8; i++)
+	{
+		if (mat1[i] == 0 && mat2[i] == 0)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 0 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 0)
+		{
+			Res[i] = 1;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+	}
+}
+
+
+void Implication(int mat1[8], int mat2[8], int Res[8])
+{
+	for (int i = 0; i < 8; i++)
+	{
+		if (mat1[i] == 0 && mat2[i] == 0)
+		{
+			Res[i] = 1;
+		}
+
+		if (mat1[i] == 0 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 0)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+	}
+}
+
+void BiConditional(int mat1[8], int mat2[8], int Res[8])
+{
+	for (int i = 0; i < 8; i++)
+	{
+		if (mat1[i] == 0 && mat2[i] == 0)
+		{
+			Res[i] = 1;
+		}
+
+		if (mat1[i] == 0 && mat2[i] == 1)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 0)
+		{
+			Res[i] = 0;
+		}
+
+		if (mat1[i] == 1 && mat2[i] == 1)
+		{
+			Res[i] = 1;
+		}
+
+	}
+}
+
+void Simprint(int mat[8], string st)
+{
+	cout << st << "    "<<endl;
+	for (int i = 0; i < 8; i++)
+	{
+		cout << mat[i] << endl;
+	}
+}
+void Complexprint(int mat[8],int mat2[8],int res[8], string st, string st1,string st2)
+{
+	system("Color 4E ");
+	cout << st << "     " << st1 << "     " << st2 << endl;
+	for (int i = 0; i < 8; i++)
+	{
+		cout << mat[i] << "     " << mat2[i] << "     " << res[i] << endl;
+	}
+}
+
+
+
+
+int main()
+{
+	char option;
+	int choice;
+	int count = 0;
+	string Entry="";
+	int i=0;
+	int NegateChecker = 0;
+
+	int p[8] = { 0,0,0,0,1,1,1,1 };
+	int q[8] = {0,0,1,1,0,0,1,1 };
+	int r[8] = { 0,1,0,1,0,1,0,1 };
+	int Result[8];
+	int finbracket[8];
+	int Result2[8];
+	int Result3[8];
+	int Result4[8];
+	int Result5[8];
+	int Result6[8];
+	int a = 0;
+	do {
+		cout << "                             WELCOME TO THE TRUTHTABLE GENERATOR V 1.0" << endl;
+		cout << "USE ^ FOR AND, v FOR OR, > FOR IMPLICATION,/ FOR BICONDITIONAL"<<endl;
+		cout << "Enter your Expression (2-8) Entries only" << endl;
+		cin >> Entry;
+		//int count = 0;
+		count = Entry.length();
+
+	} while (!(count<11) && count<=0);
+	for (int i = 0; i < count; i++)
+	{
+		if (Entry[i] == '~')
+		{
+			   cout << "NEGATION  is PRINTED AS" << endl;
+
+			if (Entry[i + 1] == 'p')
+			{
+				Negation(p);
+				Simprint(p, "~p");
+				
+			}
+			if (Entry[i + 1] == 'q')
+			{
+				Negation(q);
+				Simprint(q, "~q");
+				count--;
+			}
+			if (Entry[i + 1] == 'r')
+			{
+				Negation(q);
+				Simprint(q, "~q");
+				count--;
+			}
+			NegateChecker = 1;
+
+		}
+	}
+	if (NegateChecker == 1)
+	{
+		Entry.erase(remove(Entry.begin(), Entry.end(), '~'), Entry.end());
+	}
+
+	for (int i = 0; i <= count; i++)
+	{
+		if (Entry[i] == '(')
+		{
+			
+			goto Bracket;
+		}
+	}
+
+	for ( i = 0; i < count; i++)
+	{
+		
+		if (Entry[i] == 'p')
+		{
+			if (!((i + 1) > count))
+			{
+			
+			if (Entry[i + 1] == '^')
+			{
+				if (Entry[i + 2] == 'q')
+				{
+					AND(p, q, Result);
+					Complexprint(p,q,Result,"p","q","p ^ q");
+				}
+				if (Entry[i + 2] == 'r')
+				{
+					AND(p, r, Result);
+					Complexprint(p, r, Result, "p", "r", "p ^ r");
+
+				}
+				if (Entry[i + 2] == 'p')
+				{
+					AND(p, p, Result);
+					Complexprint(p, p, Result, "p", "p", "p ^ 7p");
+
+				}
+
+			}
+			if (Entry[i + 1] == 'v')
+			{
+				if (Entry[i + 2] == 'q')
+				{
+					OR(p, q, Result2);
+					Complexprint(p, q, Result2, "p", "q", "p v q");
+
+				}
+				if (Entry[i + 2] == 'r')
+				{
+					OR(p, r, Result2);
+					Complexprint(p, r, Result2, "p", "r", "p v r");
+
+				}
+				if (Entry[i + 2] == 'p')
+				{
+					OR(p, p, Result2);
+					Complexprint(p, p, Result2, "p", "p", "p v p");
+
+				}
+			}
+
+			if (Entry[i + 1] == '>')
+			{
+				if (Entry[i + 2] == 'q')
+				{
+					Implication(p, q, Result3);
+					Complexprint(p, q, Result3, "p", "q", "p -> q");
+
+
+				}
+				if (Entry[i + 2] == 'r')
+				{
+					Implication(p, r, Result3);
+					Complexprint(p, r, Result3, "p", "r", "p -> r");
+
+				}
+				if (Entry[i + 2] == 'p')
+				{
+					Implication(p, p, Result3);
+					Complexprint(p, p, Result3, "p", "p", "p -> p");
+				}
+			}
+			if (Entry[i + 1] == '/')
+			{
+				if (Entry[i + 2] == 'q')
+				{
+					BiConditional(p, q, Result4);
+					Complexprint(p, q, Result4, "p", "q", "p <-> q");
+				}
+				if (Entry[i + 2] == 'r')
+				{
+					BiConditional(p, r, Result4);
+					Complexprint(p, r, Result4, "p", "r", "p <-> r");
+
+				}
+				if (Entry[i + 2] == 'p')
+				{
+					BiConditional(p, p, Result4);
+					Complexprint(p, p, Result4, "p", "p", "p <-> p");
+
+				}
+			}
+		}
+	    }
+		if (Entry[i] == 'q')
+		{
+			if (!((i + 1) > count))
+			{
+
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						AND(q, q, Result);
+						Complexprint(q, q, Result, "q", "q", "q ^ q");
+
+
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						AND(q, r, Result);
+						Complexprint(q, r, Result, "q", "r", "q ^ r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						AND(q, p, Result);
+						Complexprint(q, p, Result, "q", "p", "q ^ p");
+
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						OR(q, q, Result2);
+						Complexprint(q, q, Result2, "q", "q", "q v q");
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						OR(q, r, Result2);
+						Complexprint(q, r, Result2, "q", "r", "q v r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						OR(q, p, Result2);
+						Complexprint(q, p, Result2, "q", "p", "q v p");
+
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						Implication(q, q, Result3);
+						Complexprint(q, q, Result3, "q", "q", "q->q");
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						Implication(q, r, Result3);
+						Complexprint(q, r, Result3, "q", "r", "q->r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						Implication(q, p, Result3);
+						Complexprint(q, p, Result3, "q", "p", "q->p");
+
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						BiConditional(q, q, Result4);
+						Complexprint(q, q, Result4, "q", "q", "q<->q");
+
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						BiConditional(q, r, Result4);
+						Complexprint(q, r, Result4, "q", "r", "q<->r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						BiConditional(q, p, Result4);
+						Complexprint(q, p, Result4, "q", "p", "q<->p");
+
+					}
+				}
+			}
+		}
+		if (Entry[i] == 'r')
+		{
+			if (!((i + 1) > count))
+			{
+
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						AND(r, q, Result);
+						Complexprint(r, q, Result, "r", "q", "r ^ q");
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						AND(r, r, Result);
+						Complexprint(r, r, Result, "r", "r", "r ^ r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						AND(r, p, Result);
+						Complexprint(r, p, Result, "r", "p", "r ^ p");
+
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						OR(r, q, Result2);
+						Complexprint(r, q, Result2, "r", "q", "r v q");
+
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						OR(r, r, Result2);
+						Complexprint(r, r, Result2, "r", "r", "r v r");
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						OR(r, p, Result2);
+						Complexprint(r, p, Result2, "r", "p", "r v p");
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						Implication(r, q, Result3);
+						Complexprint(r, q, Result3, "r", "q", "r -> q");
+
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						Implication(r, r, Result3);
+						Complexprint(r, r, Result3, "r", "r", "r -> r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						Implication(r, p, Result3);
+						Complexprint(r, p, Result3, "r", "p", "r -> p");
+
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == 'q')
+					{
+						BiConditional(r, q, Result4);
+						Complexprint(r, q, Result4, "r", "q", "r <-> q");
+
+					}
+					if (Entry[i + 2] == 'r')
+					{
+						BiConditional(r, r, Result4);
+						Complexprint(r, r, Result4, "r", "r", "r <-> r");
+
+					}
+					if (Entry[i + 2] == 'p')
+					{
+						BiConditional(r, p, Result4);
+						Complexprint(r, p, Result4, "r", "p", "r <->p");
+
+					}
+				}
+			}
+		}
+
+
+
+		if (Entry[i] == 'p')
+		{
+			if (!((i + 1) > count))
+			{
+
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(p, q, Result);
+							Complexprint(p, q, Result, "p", "~q", "p ^ ~q");
+						}
+
+						if (Entry[i + 3] == 'r')
+						{
+							AND(p, r, Result);
+							Complexprint(p, r, Result, "p", "~r", "p ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(p, p, Result);
+							Complexprint(p, p, Result, "p", "~p", "p ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(p, q, Result2);
+							Complexprint(p, q, Result2, "p", "~q", "p v ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(p, r, Result2);
+							Complexprint(p, r, Result2, "p", "~r", "p v ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(p, p, Result2);
+							Complexprint(p, p, Result2, "p", "~p", "p v ~p");
+
+						}
+					}
+				}
+
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(p, q, Result3);
+							Complexprint(p, q, Result3, "p", "~q", "p -> ~q");
+
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(p, r, Result3);
+							Complexprint(p, r, Result3, "p", "~r", "p -> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(p, p, Result3);
+							Complexprint(p, p, Result3, "p", "~p", "p -> ~p");
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(p, q, Result4);
+							Complexprint(p, q, Result4, "p", "~q", "p <-> ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(p, r, Result4);
+							Complexprint(p, r, Result4, "p", "~r", "p <-> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(p, p, Result4);
+							Complexprint(p, p, Result4, "p", "~p", "p <-> ~p");
+
+						}
+					}
+				}
+			}
+		}
+		if (Entry[i] == 'q')
+		{     
+			if (!((i + 1) > count))
+			{
+				   
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(q, q, Result);
+							Complexprint(q, q, Result, "q", "~q", "q ^ ~q");
+
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							AND(q, r, Result);
+							Complexprint(q, r, Result, "q", "~r", "q ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(q, p, Result);
+							Complexprint(q, p, Result, "q", "~p", "q ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(q, q, Result2);
+							Complexprint(q, q, Result2, "~q", "~q", "q v ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(q, r, Result2);
+							Complexprint(q, r, Result2, "~q", "~r", "q v ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(q, p, Result2);
+							Complexprint(q, p, Result2, "~q", "~p", "q v ~p");
+
+						}
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(q, q, Result3);
+							Complexprint(q, q, Result3, "q", "~q", "q->~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(q, r, Result3);
+							Complexprint(q, r, Result3, "q", "~r", "q->~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(q, p, Result3);
+							Complexprint(q, p, Result3, "q", "~p", "q->~p");
+
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(q, q, Result4);
+							Complexprint(q, q, Result4, "q", "~q", "q<->~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(q, r, Result4);
+							Complexprint(q, r, Result4, "q", "~r", "q<->~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(q, p, Result4);
+							Complexprint(q, p, Result4, "q", "~p", "q<->~p");
+
+						}
+					}
+				}
+			}
+		}
+		if (Entry[i] == 'r')
+		{
+			if (!((i + 1) > count))
+			{
+				  
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(r, q, Result);
+							Complexprint(r, q, Result, "r", "~q", "r ^ ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							AND(r, r, Result);
+							Complexprint(r, r, Result, "r", "~r", "r ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(r, p, Result);
+							Complexprint(r, p, Result, "r", "~p", "r ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(r, q, Result2);
+							Complexprint(r, q, Result2, "r", "~q", "r v ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(r, r, Result2);
+							Complexprint(r, r, Result2, "r", "~r", "r v ~r");
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(r, p, Result2);
+							Complexprint(r, p, Result2, "r", "~p", "r v ~p");
+						}
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(r, q, Result3);
+							Complexprint(r, q, Result3, "r", "~q", "r -> ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(r, r, Result3);
+							Complexprint(r, r, Result3, "r", "~r", "r -> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(r, p, Result3);
+							Complexprint(r, p, Result3, "r", "~p", "r -> ~p");
+
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(r, q, Result4);
+							Complexprint(r, q, Result4, "r", "~q", "r <-> ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(r, r, Result4);
+							Complexprint(r, r, Result4, "r", "~r", "r <-> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(r, p, Result4);
+							Complexprint(r, p, Result4, "r", "~p", "r <->~p");
+
+						}
+					}
+				}
+			}
+		}
+		
+		if (Entry[i] == 'p')
+		{
+			if (!((i + 1) > count))
+			{
+
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(p, q, Result);
+							Complexprint(p, q, Result, "p", "~q", "p ^ ~q");
+						}
+
+						if (Entry[i + 3] == 'r')
+						{
+							AND(p, r, Result);
+							Complexprint(p, r, Result, "p", "~r", "p ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(p, p, Result);
+							Complexprint(p, p, Result, "p", "~p", "p ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(p, q, Result2);
+							Complexprint(p, q, Result2, "p", "~q", "p v ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(p, r, Result2);
+							Complexprint(p, r, Result2, "p", "~r", "p v ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(p, p, Result2);
+							Complexprint(p, p, Result2, "p", "~p", "p v ~p");
+
+						}
+					}
+				}
+
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(p, q, Result3);
+							Complexprint(p, q, Result3, "p", "~q", "p -> ~q");
+
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(p, r, Result3);
+							Complexprint(p, r, Result3, "p", "~r", "p -> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(p, p, Result3);
+							Complexprint(p, p, Result3, "p", "~p", "p -> ~p");
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(p, q, Result4);
+							Complexprint(p, q, Result4, "p", "~q", "p <-> ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(p, r, Result4);
+							Complexprint(p, r, Result4, "p", "~r", "p <-> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(p, p, Result4);
+							Complexprint(p, p, Result4, "p", "~p", "p <-> ~p");
+
+						}
+					}
+				}
+			}
+		}
+		if (Entry[i] == 'q')
+		{     
+			if (!((i + 1) > count))
+			{
+				   
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(q, q, Result);
+							Complexprint(q, q, Result, "q", "~q", "q ^ ~q");
+
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							AND(q, r, Result);
+							Complexprint(q, r, Result, "q", "~r", "q ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(q, p, Result);
+							Complexprint(q, p, Result, "q", "~p", "q ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(q, q, Result2);
+							Complexprint(q, q, Result2, "~q", "~q", "q v ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(q, r, Result2);
+							Complexprint(q, r, Result2, "~q", "~r", "q v ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(q, p, Result2);
+							Complexprint(q, p, Result2, "~q", "~p", "q v ~p");
+
+						}
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(q, q, Result3);
+							Complexprint(q, q, Result3, "q", "~q", "q->~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(q, r, Result3);
+							Complexprint(q, r, Result3, "q", "~r", "q->~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(q, p, Result3);
+							Complexprint(q, p, Result3, "q", "~p", "q->~p");
+
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(q, q, Result4);
+							Complexprint(q, q, Result4, "q", "~q", "q<->~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(q, r, Result4);
+							Complexprint(q, r, Result4, "q", "~r", "q<->~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(q, p, Result4);
+							Complexprint(q, p, Result4, "q", "~p", "q<->~p");
+
+						}
+					}
+				}
+			}
+		}
+		if (Entry[i] == 'r')
+		{
+			if (!((i + 1) > count))
+			{
+				  
+				if (Entry[i + 1] == '^')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							AND(r, q, Result);
+							Complexprint(r, q, Result, "r", "~q", "r ^ ~q");
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							AND(r, r, Result);
+							Complexprint(r, r, Result, "r", "~r", "r ^ ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							AND(r, p, Result);
+							Complexprint(r, p, Result, "r", "~p", "r ^ ~p");
+
+						}
+					}
+
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							OR(r, q, Result2);
+							Complexprint(r, q, Result2, "r", "~q", "r v ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							OR(r, r, Result2);
+							Complexprint(r, r, Result2, "r", "~r", "r v ~r");
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							OR(r, p, Result2);
+							Complexprint(r, p, Result2, "r", "~p", "r v ~p");
+						}
+					}
+				}
+
+				if (Entry[i + 1] == '>')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							Implication(r, q, Result3);
+							Complexprint(r, q, Result3, "r", "~q", "r -> ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							Implication(r, r, Result3);
+							Complexprint(r, r, Result3, "r", "~r", "r -> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							Implication(r, p, Result3);
+							Complexprint(r, p, Result3, "r", "~p", "r -> ~p");
+
+						}
+					}
+				}
+				if (Entry[i + 1] == '/')
+				{
+					if (Entry[i + 2] == '~')
+					{
+						if (Entry[i + 3] == 'q')
+						{
+							BiConditional(r, q, Result4);
+							Complexprint(r, q, Result4, "r", "~q", "r <-> ~q");
+
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							BiConditional(r, r, Result4);
+							Complexprint(r, r, Result4, "r", "~r", "r <-> ~r");
+
+						}
+						if (Entry[i + 3] == 'p')
+						{
+							BiConditional(r, p, Result4);
+							Complexprint(r, p, Result4, "r", "~p", "r <->~p");
+
+						}
+					}
+				}
+			}
+		}
+		
+    }
+	// BRACKET COMBINATIONS BEGIN FROM HERE
+Bracket:
+	
+	if (Entry[0] == '(')
+	{
+		
+		reverse(Entry.begin(), Entry.end());
+		for (int i = 0; i < count; i++)
+		{
+			if (Entry[i] == '(')
+			{
+				Entry[i] = ')';
+				i++;
+			}
+		
+			if (Entry[i] == ')')
+			{
+				Entry[i] = '(';
+				i++;
+			}
+			
+		}
+		cout << "The new exp is " << Entry << endl;
+
+		
+	}
+	
+	char temp[1];
+	for (int i = 0; i < count; i++)
+	{
+	
+		if (Entry[i] == '^' || Entry[i] == 'v' || Entry[i] == '>' || Entry[i] == '/')
+		{
+			if (i - 2 > 0)
+			{
+				if (Entry[i - 2] == '(')
+				{
+					temp[0] = Entry[i - 1];
+					
+						Entry[i - 1] = Entry[i + 1];
+						Entry[i + 1] = temp[0];
+
+				}
+			}
+		}
+	}
+
+
+	for (int i = 0; i < count; i++)
+	{
+		if (Entry[i] == 'p')
+		{
+			
+			
+			if (!(i+1 > count))
+			{
+				if (Entry[i + 1] == '^')
+				{
+					cout << "im in and" << endl;
+					
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p^(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p^(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p^(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p^(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p^(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p^(pvr)");
+										break;
+									}
+								}
+							}
+							
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p^(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p^(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p^(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p^(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p^(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p^(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+							cout << "im in q" << endl;
+							if (Entry[i + 4] == '^')
+							{
+								
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "p^(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "p^(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "p^(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										AND(p, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "p^(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										AND(p, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "p^(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										AND(p, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "p^(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "pv(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "pv(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "pv(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "pv(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "pv(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "pv(pvr)");
+										break;
+									}
+								}
+							}
+							
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "pv(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "pv(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "pv(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "pv(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "pv(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "pv(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "pv(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "pv(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "pv(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										OR(p, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "pv(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										OR(p, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "pv(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										OR(p, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "pv(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}// implication
+				if (Entry[i] == '>')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p->(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p->(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p->(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p->(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p->(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p->(pvr)");
+										break;
+									}
+								}
+							}
+							////////
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p->(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p->(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p->(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "p->(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "p->(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "p->(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "p->(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "p->(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "p->(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "p->(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "p->(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										Implication(p, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "p->(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+					if (Entry[i + 1] == '/')
+					{
+						if (Entry[i + 2] == '(')
+						{
+							if (Entry[i + 3] == 'p')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "p<->(p^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "p<->(p^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "p<->(p^r)");
+											break;
+										}
+									}
+
+								}
+								if (Entry[i + 4] == 'v')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "p<->(pvp)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "p<->(pvq)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "p<->(pvr)");
+											break;
+										}
+									}
+								}
+								////////
+								if (Entry[i + 4] == '>')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "p<->(p->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "p<->(p->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "p<->(p->r)");
+											break;
+										}
+									}
+								}
+								if (Entry[i + 4] == '/')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "p<->(p<->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "p<->(p<->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "p<->(p<->r)");
+											break;
+										}
+									}
+								}
+
+							}
+							if (Entry[i + 3] == 'q')
+							{
+
+								if (Entry[i + 4] == '^')
+								{
+
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(q, p, finbracket, "q", "p", "p<->(q^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(q, q, finbracket, "q", "q", "p<->(q^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(q, r, finbracket, "q", "r", "p<->(q^r)");
+											break;
+										}
+									}
+
+								}
+							}
+							if (Entry[i + 3] == 'r')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, p, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(r, p, finbracket, "r", "p", "p<->(r^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, q, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(r, q, finbracket, "r", "q", "p<->(r^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, r, Result);
+											BiConditional(p, Result, finbracket);
+											Complexprint(r, r, finbracket, "r", "r", "p<->(r^r)");
+											break;
+										}
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// q
+		if (Entry[i] == 'q')
+		{
+
+			if (!(i + 1 > count))
+			{
+				if (Entry[i + 1] == '^')
+				{
+
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q^(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q^(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q^(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q^(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q^(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q^(pvr)");
+										break;
+									}
+								}
+							}
+
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q^(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q^(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q^(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q^(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q^(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q^(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "q^(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "q^(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "q^(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										AND(q, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "q^(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										AND(q, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "q^(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										AND(q, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "q^(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "qv(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "qv(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "qv(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "qv(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "qv(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "qv(pvr)");
+										break;
+									}
+								}
+							}
+
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "qv(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "qv(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "qv(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "qv(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "qv(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "qv(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "qv(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "qv(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "qv(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										OR(q, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "qv(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										OR(q, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "qv(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										OR(q, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "qv(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}// implication
+				if (Entry[i] == '>')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q->(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(q, q, finbracket, "p", "q", "q->(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q->(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q->(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q->(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q->(pvr)");
+										break;
+									}
+								}
+							}
+							////////
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q->(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q->(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q->(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "q->(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "q->(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "q->(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "q->(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "q->(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "q->(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "q->(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "q->(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										Implication(q, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "q->(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+					if (Entry[i + 1] == '/')
+					{
+						if (Entry[i + 2] == '(')
+						{
+							if (Entry[i + 3] == 'p')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(q, p, finbracket, "p", "p", "q<->(p^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "q<->(p^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "q<->(p^r)");
+											break;
+										}
+									}
+
+								}
+								if (Entry[i + 4] == 'v')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "q<->(pvp)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "q<->(pvq)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "q<->(pvr)");
+											break;
+										}
+									}
+								}
+								////////
+								if (Entry[i + 4] == '>')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "q<->(p->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "q<->(p->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "q<->(p->r)");
+											break;
+										}
+									}
+								}
+								if (Entry[i + 4] == '/')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "q<->(p<->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "q<->(p<->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "q<->(p<->r)");
+											break;
+										}
+									}
+								}
+
+							}
+							if (Entry[i + 3] == 'q')
+							{
+
+								if (Entry[i + 4] == '^')
+								{
+
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(q, p, finbracket, "q", "p", "q<->(q^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(q, q, finbracket, "q", "q", "q<->(q^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(q, r, finbracket, "q", "r", "q<->(q^r)");
+											break;
+										}
+									}
+
+								}
+							}
+							if (Entry[i + 3] == 'r')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, p, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(r, p, finbracket, "r", "p", "q<->(r^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, q, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(r, q, finbracket, "r", "q", "q<->(r^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, r, Result);
+											BiConditional(q, Result, finbracket);
+											Complexprint(r, r, finbracket, "r", "r", "q<->(r^r)");
+											break;
+										}
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// r
+		if (Entry[i] == 'r')
+		{
+
+			if (!(i + 1 > count))
+			{
+				if (Entry[i + 1] == '^')
+				{
+
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r^(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r^(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r^(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r^(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r^(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r^(pvr)");
+										break;
+									}
+								}
+							}
+
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r^(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r^(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r^(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r^(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r^(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r^(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "r^(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "r^(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "r^(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										AND(r, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "r^(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										AND(r, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "r^(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										AND(r, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "r^(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				if (Entry[i + 1] == 'v')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "rv(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "rv(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "rv(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "rv(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "rv(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "rv(pvr)");
+										break;
+									}
+								}
+							}
+
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "rv(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "rv(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "rv(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "rv(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "rv(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "rv(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "rv(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "rv(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "rv(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										OR(r, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "rv(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										OR(r, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "rv(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										OR(r, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "rv(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+				}// implication
+				if (Entry[i] == '>')
+				{
+					if (Entry[i + 2] == '(')
+					{
+						if (Entry[i + 3] == 'p')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r->(p^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r->(p^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(p, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r->(p^r)");
+										break;
+									}
+								}
+
+							}
+							if (Entry[i + 4] == 'v')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r->(pvp)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r->(pvq)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										OR(p, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r->(pvr)");
+										break;
+									}
+								}
+							}
+							////////
+							if (Entry[i + 4] == '>')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r->(p->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r->(p->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										Implication(p, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r->(p->r)");
+										break;
+									}
+								}
+							}
+							if (Entry[i + 4] == '/')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, p, finbracket, "p", "p", "r->(p<->p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, q, finbracket, "p", "q", "r->(p<->q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										BiConditional(p, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(p, r, finbracket, "p", "r", "r->(p<->r)");
+										break;
+									}
+								}
+							}
+
+						}
+						if (Entry[i + 3] == 'q')
+						{
+
+							if (Entry[i + 4] == '^')
+							{
+
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(q, p, finbracket, "q", "p", "r->(q^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(q, q, finbracket, "q", "q", "r->(q^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(q, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(q, r, finbracket, "q", "r", "r->(q^r)");
+										break;
+									}
+								}
+
+							}
+						}
+						if (Entry[i + 3] == 'r')
+						{
+							if (Entry[i + 4] == '^')
+							{
+								if (Entry[i + 5] == 'p')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, p, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(r, p, finbracket, "r", "p", "r->(r^p)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'q')
+								{
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, q, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(r, q, finbracket, "r", "q", "r->(r^q)");
+										break;
+									}
+								}
+								if (Entry[i + 5] == 'r')
+								{
+
+									if (Entry[i + 6] == ')')
+									{
+										AND(r, r, Result);
+										Implication(r, Result, finbracket);
+										Complexprint(r, r, finbracket, "r", "r", "r->(r^r)");
+										break;
+									}
+								}
+
+							}
+						}
+					}
+					if (Entry[i + 1] == '/')
+					{
+						if (Entry[i + 2] == '(')
+						{
+							if (Entry[i + 3] == 'p')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "r<->(p^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "r<->(p^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(p, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "r<->(p^r)");
+											break;
+										}
+									}
+
+								}
+								if (Entry[i + 4] == 'v')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "r<->(pvp)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "r<->(pvq)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											OR(p, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "r<->(pvr)");
+											break;
+										}
+									}
+								}
+								////////
+								if (Entry[i + 4] == '>')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "r<->(p->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "r<->(p->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											Implication(p, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "r<->(p->r)");
+											break;
+										}
+									}
+								}
+								if (Entry[i + 4] == '/')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, p, finbracket, "p", "p", "r<->(p<->p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, q, finbracket, "p", "q", "r<->(p<->q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											BiConditional(p, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(p, r, finbracket, "p", "r", "r<->(p<->r)");
+											break;
+										}
+									}
+								}
+
+							}
+							if (Entry[i + 3] == 'q')
+							{
+
+								if (Entry[i + 4] == '^')
+								{
+
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(q, p, finbracket, "q", "p", "r<->(q^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(q, q, finbracket, "q", "q", "r<->(q^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(q, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(q, r, finbracket, "q", "r", "r<->(q^r)");
+											break;
+										}
+									}
+
+								}
+							}
+							if (Entry[i + 3] == 'r')
+							{
+								if (Entry[i + 4] == '^')
+								{
+									if (Entry[i + 5] == 'p')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, p, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(r, p, finbracket, "r", "p", "r<->(r^p)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'q')
+									{
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, q, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(r, q, finbracket, "r", "q", "r<->(r^q)");
+											break;
+										}
+									}
+									if (Entry[i + 5] == 'r')
+									{
+
+										if (Entry[i + 6] == ')')
+										{
+											AND(r, r, Result);
+											BiConditional(r, Result, finbracket);
+											Complexprint(r, r, finbracket, "r", "r", "r<->(r^r)");
+											break;
+										}
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+
+	}
+
+}
